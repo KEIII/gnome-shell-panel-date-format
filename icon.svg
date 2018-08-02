@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:xlink="http://www.w3.org/1999/xlink"
+   id="svg8"
+   version="1.1"
+   viewBox="0 0 33.866667 33.866667"
+   height="128"
+   width="128">
+  <defs
+     id="defs2">
+    <linearGradient
+       id="linearGradient4549">
+      <stop
+         id="stop4545"
+         offset="0"
+         style="stop-color:#ef298c;stop-opacity:1" />
+      <stop
+         id="stop4547"
+         offset="1"
+         style="stop-color:#f57900;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient
+       gradientUnits="userSpaceOnUse"
+       y2="291.70834"
+       x2="38.364582"
+       y1="269.21875"
+       x1="-3.96875"
+       id="linearGradient4551"
+       xlink:href="#linearGradient4549" />
+  </defs>
+  <metadata
+     id="metadata5">
+    <rdf:RDF>
+      <cc:Work
+         rdf:about="">
+        <dc:format>image/svg+xml</dc:format>
+        <dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
+        <dc:title></dc:title>
+      </cc:Work>
+    </rdf:RDF>
+  </metadata>
+  <g
+     transform="translate(0,-263.13334)"
+     id="layer1">
+    <path
+       id="rect4520"
+       d="m 13.200726,263.13333 h 7.465217 c 9.496558,10e-6 13.200724,3.70417 13.200726,13.20072 v 7.46524 c -2e-6,9.49655 -3.704168,13.20072 -13.200726,13.20072 H 13.200726 C 3.7041667,297.00001 0,293.29584 0,283.79929 v -7.46524 c 0,-9.49655 3.7041667,-13.20071 13.200726,-13.20072 z"
+       style="fill:url(#linearGradient4551);stroke-width:0.26458335;fill-opacity:1" />
+    <g
+       transform="translate(0.40307575)"
+       id="text4584"
+       style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-size:10.58333397px;line-height:1.25;font-family:'Noto Sans Bengali UI';-inkscape-font-specification:'Noto Sans Bengali UI Bold';letter-spacing:0px;word-spacing:0px;fill:#ffffff;fill-opacity:1;stroke:none;stroke-width:0.26458335"
+       aria-label="H:M">
+      <path
+         id="path4590"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans Bengali UI';-inkscape-font-specification:'Noto Sans Bengali UI Bold';fill:#ffffff;stroke-width:0.26458335"
+         d="m 6.0890345,276.20902 h 1.9895427 v 2.94039 h 2.9352218 v -2.94039 h 1.989543 v 7.7153 H 11.013799 V 280.6532 H 8.0785772 v 3.27112 H 6.0890345 Z" />
+      <path
+         id="path4592"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans Bengali UI';-inkscape-font-specification:'Noto Sans Bengali UI Bold';fill:#ffffff;stroke-width:0.26458335"
+         d="m 15.699694,278.81255 q -0.381,0 -0.645583,-0.20109 -0.264583,-0.21166 -0.264583,-0.67733 0,-0.48683 0.264583,-0.67733 0.264583,-0.20109 0.645583,-0.20109 0.359834,0 0.624417,0.20109 0.275167,0.1905 0.275167,0.67733 0,0.46567 -0.275167,0.67733 -0.264583,0.20109 -0.624417,0.20109 z m 0,4.26508 q -0.381,0 -0.645583,-0.20108 -0.264583,-0.21167 -0.264583,-0.67734 0,-0.48683 0.264583,-0.67733 0.264583,-0.20108 0.645583,-0.20108 0.359834,0 0.624417,0.20108 0.275167,0.1905 0.275167,0.67733 0,0.46567 -0.275167,0.67734 -0.264583,0.20108 -0.624417,0.20108 z" />
+      <path
+         id="path4594"
+         style="font-style:normal;font-variant:normal;font-weight:bold;font-stretch:normal;font-family:'Noto Sans Bengali UI';-inkscape-font-specification:'Noto Sans Bengali UI Bold';fill:#ffffff;stroke-width:0.26458335"
+         d="m 18.388027,276.20902 h 2.532145 l 1.756999,4.12895 1.767334,-4.12895 h 2.526978 v 7.7153 H 25.09046 v -5.64307 l -1.777669,4.15995 h -1.260905 l -1.777669,-4.15995 v 5.64307 h -1.88619 z" />
+    </g>
+  </g>
+</svg>

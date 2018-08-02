@@ -1,0 +1,9 @@
+{
+  "uuid": "panel-date-format@keiii.github.com",
+  "name": "Panel Date Format",
+  "description": "Allows to customize the date format on the panel.",
+  "url": "https://github.com/keiii/panel-date-format",
+  "shell-version": ["3.28"],
+  "settings-schema": "org.gnome.shell.extensions.panel-date-format",
+  "version": 1
+}

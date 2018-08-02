@@ -1,0 +1,9 @@
+<schemalist>
+  <schema id="org.gnome.shell.extensions.panel-date-format" path="/org/gnome/shell/extensions/panel-date-format/">
+    <key name="format" type="s">
+      <default>""</default>
+      <summary>Format</summary>
+      <description>Format for the clock. Syntax https://developer.gnome.org/glib/stable/glib-GDateTime.html#g-date-time-format</description>
+    </key>
+  </schema>
+</schemalist>
