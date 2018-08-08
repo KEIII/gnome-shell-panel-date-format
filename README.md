@@ -1,4 +1,4 @@
-# Panel Date Format extension for Gnome Shell.
+# Panel Date Format extension for Gnome Shell
 
 Allows to customize the date format on the panel.
 
@@ -13,3 +13,7 @@ dconf write /org/gnome/shell/extensions/panel-date-format/format "'%Y-%m-%d'"
 ```
 
 [Syntax](https://developer.gnome.org/glib/stable/glib-GDateTime.html#g-date-time-format)
+
+## Installation
+
+This repository for developers only. If you wanna add this extension to your desktop, get it from [extensions.gnome.org]( https://extensions.gnome.org/extension/1462/panel-date-format/).
