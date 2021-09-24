@@ -3,8 +3,6 @@ const St = imports.gi.St;
 const main = imports.ui.main;
 const Clutter = imports.gi.Clutter;
 const ExtensionUtils = imports.misc.extensionUtils;
-const Me = ExtensionUtils.getCurrentExtension();
-const Convenience = Me.imports.convenience;
 
 let originalClockDisplay;
 let formatClockDisplay;
@@ -14,23 +12,23 @@ let timeoutID = 0;
 /**
  * Initialising function which will be invoked at most once directly after your source JS file is loaded.
  */
-function init() {
-  originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
-  formatClockDisplay = new St.Label({
-    y_align: Clutter.ActorAlign.CENTER,
-  });
-  settings = Convenience.getSettings();
-
-  // FIXME: Set settings first time to make it visible in dconf Editor
-  if (!settings.get_string('format')) {
-    settings.set_string('format', '%Y.%m.%d %H:%M');
-  }
-}
+function init() {}
 
 /**
  * Enable, called when extension is enabled or when screen is unlocked.
  */
 function enable() {
+  originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
+  formatClockDisplay = new St.Label({
+    y_align: Clutter.ActorAlign.CENTER,
+  });
+  settings = ExtensionUtils.getSettings();
+
+  // FIXME: Set settings first time to make it visible in dconf Editor
+  if (!settings.get_string('format')) {
+    settings.set_string('format', '%Y.%m.%d %H:%M');
+  }
+
   originalClockDisplay.hide();
   originalClockDisplay.get_parent().insert_child_below(formatClockDisplay, originalClockDisplay);
   timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
