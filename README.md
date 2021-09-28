@@ -12,7 +12,7 @@ You can use dconf Editor to change format. Or simply from the terminal:
 dconf write /org/gnome/shell/extensions/panel-date-format/format "'%Y-%m-%d'"
 ```
 
-The format strings understood by this function are a subset of the `strftime()`. [The following format specifiers are supported](https://developer.gnome.org/glib/stable/glib-GDateTime.html#g-date-time-format).
+The format strings understood by this function are a subset of the `strftime()`. [The following format specifiers are supported](https://docs.gtk.org/glib/method.DateTime.format.html).
 
 ## Installation
 
