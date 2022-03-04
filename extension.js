@@ -42,6 +42,8 @@ function disable() {
   timeoutID = 0;
   originalClockDisplay.get_parent().remove_child(formatClockDisplay);
   originalClockDisplay.show();
+  settings = null;
+  formatClockDisplay = null;
 }
 
 /**
