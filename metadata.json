@@ -3,7 +3,7 @@
   "name": "Panel Date Format",
   "description": "Allows to customize the date format on the panel.",
   "url": "https://github.com/KEIII/gnome-shell-panel-date-format",
-  "shell-version": ["40", "41"],
+  "shell-version": ["40", "41", "42"],
   "settings-schema": "org.gnome.shell.extensions.panel-date-format",
   "version": 2
 }
