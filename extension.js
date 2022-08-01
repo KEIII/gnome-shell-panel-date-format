@@ -21,6 +21,7 @@ function enable() {
   originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
   formatClockDisplay = new St.Label({
     y_align: Clutter.ActorAlign.CENTER,
+    style_class: 'clock',
   });
   settings = ExtensionUtils.getSettings();
 
