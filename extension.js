@@ -1,7 +1,5 @@
-const GLib = imports.gi.GLib;
-const St = imports.gi.St;
+const { GLib, St, Clutter, Pango } = imports.gi;
 const main = imports.ui.main;
-const Clutter = imports.gi.Clutter;
 const ExtensionUtils = imports.misc.extensionUtils;
 
 let originalClockDisplay;
@@ -19,10 +17,9 @@ function init() {}
  */
 function enable() {
   originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
-  formatClockDisplay = new St.Label({
-    y_align: Clutter.ActorAlign.CENTER,
-    style_class: 'clock',
-  });
+  formatClockDisplay = new St.Label({ style_class: 'clock' });
+  formatClockDisplay.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+  formatClockDisplay.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
   settings = ExtensionUtils.getSettings();
 
   // FIXME: Set settings first time to make it visible in dconf Editor
