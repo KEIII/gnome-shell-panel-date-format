@@ -17,18 +17,20 @@ function init() {}
  */
 function enable() {
   originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
-  formatClockDisplay = new St.Label({ style_class: 'clock' });
+  formatClockDisplay = new St.Label({ style_class: "clock" });
   formatClockDisplay.clutter_text.y_align = Clutter.ActorAlign.CENTER;
   formatClockDisplay.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
   settings = ExtensionUtils.getSettings();
 
   // FIXME: Set settings first time to make it visible in dconf Editor
-  if (!settings.get_string('format')) {
-    settings.set_string('format', '%Y.%m.%d %H:%M');
+  if (!settings.get_string("format")) {
+    settings.set_string("format", "%Y.%m.%d %H:%M");
   }
 
   originalClockDisplay.hide();
-  originalClockDisplay.get_parent().insert_child_below(formatClockDisplay, originalClockDisplay);
+  originalClockDisplay
+    .get_parent()
+    .insert_child_below(formatClockDisplay, originalClockDisplay);
   timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
 }
 
@@ -49,8 +51,8 @@ function disable() {
  * @return {boolean} Always returns true to loop.
  */
 function tick() {
-  const format = settings.get_string('format');
-  formatClockDisplay.set_text(new Date().toLocaleFormat(format));
+  const format = settings.get_string("format");
+  formatClockDisplay.set_text(new GLib.DateTime().format(format));
 
   return true;
 }
