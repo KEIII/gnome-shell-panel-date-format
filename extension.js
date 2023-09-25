@@ -13,39 +13,39 @@ let timeoutID = 0;
 
 export default class PanelDateFormatExtension extends Extension {
 
-/**
- * Enable, called when extension is enabled or when screen is unlocked.
- */
-enable() {
-  originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
-  formatClockDisplay = new St.Label({ style_class: "clock" });
-  formatClockDisplay.clutter_text.y_align = Clutter.ActorAlign.CENTER;
-  formatClockDisplay.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
-  settings = this.getSettings();
+  /**
+  * Enable, called when extension is enabled or when screen is unlocked.
+  */
+  enable() {
+    originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
+    formatClockDisplay = new St.Label({ style_class: "clock" });
+    formatClockDisplay.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+    formatClockDisplay.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+    settings = this.getSettings();
 
-  // FIXME: Set settings first time to make it visible in dconf Editor
-  if (!settings.get_string("format")) {
-    settings.set_string("format", "%Y.%m.%d %H:%M");
+    // FIXME: Set settings first time to make it visible in dconf Editor
+    if (!settings.get_string("format")) {
+      settings.set_string("format", "%Y.%m.%d %H:%M");
+    }
+
+    originalClockDisplay.hide();
+    originalClockDisplay
+      .get_parent()
+      .insert_child_below(formatClockDisplay, originalClockDisplay);
+    timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
   }
 
-  originalClockDisplay.hide();
-  originalClockDisplay
-    .get_parent()
-    .insert_child_below(formatClockDisplay, originalClockDisplay);
-  timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
-}
-
-/**
- * Disable, called when extension is disabled or when screen is locked.
- */
-disable() {
-  GLib.Source.remove(timeoutID);
-  timeoutID = 0;
-  originalClockDisplay.get_parent().remove_child(formatClockDisplay);
-  originalClockDisplay.show();
-  settings = null;
-  formatClockDisplay = null;
-}
+  /**
+  * Disable, called when extension is disabled or when screen is locked.
+  */
+  disable() {
+    GLib.Source.remove(timeoutID);
+    timeoutID = 0;
+    originalClockDisplay.get_parent().remove_child(formatClockDisplay);
+    originalClockDisplay.show();
+    settings = null;
+    formatClockDisplay = null;
+  }
 }
 
 /**
