@@ -1,10 +1,9 @@
-import GLib from 'gi://GLib';
-import St from 'gi://St';
-import Clutter from 'gi://Clutter';
-import Pango from 'gi://Pango';
-
-import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
-import * as main from 'resource:///org/gnome/shell/ui/main.js';
+import GLib from "gi://GLib";
+import St from "gi://St";
+import Clutter from "gi://Clutter";
+import Pango from "gi://Pango";
+import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
+import * as main from "resource:///org/gnome/shell/ui/main.js";
 
 let originalClockDisplay;
 let formatClockDisplay;
@@ -12,10 +11,9 @@ let settings;
 let timeoutID = 0;
 
 export default class PanelDateFormatExtension extends Extension {
-
   /**
-  * Enable, called when extension is enabled or when screen is unlocked.
-  */
+   * Enable, called when extension is enabled or when screen is unlocked.
+   */
   enable() {
     originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
     formatClockDisplay = new St.Label({ style_class: "clock" });
@@ -36,8 +34,8 @@ export default class PanelDateFormatExtension extends Extension {
   }
 
   /**
-  * Disable, called when extension is disabled or when screen is locked.
-  */
+   * Disable, called when extension is disabled or when screen is locked.
+   */
   disable() {
     GLib.Source.remove(timeoutID);
     timeoutID = 0;
