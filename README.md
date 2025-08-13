@@ -2,6 +2,8 @@
 
 Allows to customize the date format on the panel.
 
+If Dash2Panel is being used, every panel is updated.
+
 ![screenshot](./screenshot.png?raw=true)
 
 ## Changing format

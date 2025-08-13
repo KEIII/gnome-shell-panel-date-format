@@ -5,8 +5,7 @@ import Pango from "gi://Pango";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as main from "resource:///org/gnome/shell/ui/main.js";
 
-let originalClockDisplay;
-let formatClockDisplay;
+let clockMap = new Map();
 let settings;
 let timeoutID = 0;
 
@@ -15,10 +14,11 @@ export default class PanelDateFormatExtension extends Extension {
    * Enable, called when extension is enabled or when screen is unlocked.
    */
   enable() {
-    originalClockDisplay = main.panel.statusArea.dateMenu._clockDisplay;
-    formatClockDisplay = new St.Label({ style_class: "clock" });
-    formatClockDisplay.clutter_text.y_align = Clutter.ActorAlign.CENTER;
-    formatClockDisplay.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+    // log("StatusBar enable");
+    if (global.dashToPanel && ! global.dashToPanel._dateTimeformatPanelsCreatedId) {
+      global.dashToPanel._dateTimeformatPanelsCreatedId = global.dashToPanel.connect('panels-created', () => enable());
+    }
+
     settings = this.getSettings();
 
     // FIXME: Set settings first time to make it visible in dconf Editor
@@ -26,10 +26,6 @@ export default class PanelDateFormatExtension extends Extension {
       settings.set_string("format", "%Y.%m.%d %H:%M");
     }
 
-    originalClockDisplay.hide();
-    originalClockDisplay
-      .get_parent()
-      .insert_child_below(formatClockDisplay, originalClockDisplay);
     timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
   }
 
@@ -39,10 +35,25 @@ export default class PanelDateFormatExtension extends Extension {
   disable() {
     GLib.Source.remove(timeoutID);
     timeoutID = 0;
-    originalClockDisplay.get_parent().remove_child(formatClockDisplay);
-    originalClockDisplay.show();
+
+    // log("StatusBar disable");
+    eachClock().forEach(clockDisplay => {
+      if (clockMap.has(clockDisplay)) {
+        let label = clockMap.get(clockDisplay);
+        clockMap.delete(clockDisplay);
+        clockDisplay.show();
+        clockDisplay.get_parent().remove_child(label);
+      } else {
+        // log(`StatusBar Why isn't clockDisplay in clockMap?! ${JSON.stringify(clockMap)}`);
+      }
+    });
+
+    if (global.dashToPanel && global.dashToPanel._dateTimeformatPanelsCreatedId) {
+      global.dashToPanel.disconnect(global.dashToPanel._dateTimeformatPanelsCreatedId);
+      delete global.dashToPanel._dateTimeformatPanelsCreatedId;
+    }
+
     settings = null;
-    formatClockDisplay = null;
   }
 }
 
@@ -52,7 +63,31 @@ export default class PanelDateFormatExtension extends Extension {
  */
 function tick() {
   const format = settings.get_string("format");
-  formatClockDisplay.set_text(new GLib.DateTime().format(format));
-
+  // log("StatusBar update");
+  eachClock().forEach(clockDisplay => {
+    // log(`StatusBar update clock ${clockDisplay}`);
+    let label = clockMap.get(clockDisplay);
+    if (!label) {
+      // This extension can load before Dash2Panel, so lazily add new panels
+      label = new St.Label({ style_class: "clock" });
+      label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+      label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+      clockDisplay.hide();
+      clockDisplay.get_parent().insert_child_below(label, clockDisplay);
+      clockMap.set(clockDisplay, label);
+    }
+    label.set_text(new GLib.DateTime().format(format));
+  });
   return true;
+}
+
+function eachClock() {
+  let ret = [];
+  let panelArray = global.dashToPanel ? global.dashToPanel.panels.map(pw => pw.panel || pw) : [main.panel];
+  let iterLength = panelArray.length;
+  for(var index = 0; index < iterLength; index++){
+    let panel = panelArray[index];
+    ret.push(panel.statusArea.dateMenu._clockDisplay);
+  }
+  return ret;
 }
