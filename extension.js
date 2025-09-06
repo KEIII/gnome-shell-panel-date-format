@@ -5,89 +5,56 @@ import Pango from "gi://Pango";
 import { Extension } from "resource:///org/gnome/shell/extensions/extension.js";
 import * as main from "resource:///org/gnome/shell/ui/main.js";
 
-let clockMap = new Map();
-let settings;
-let timeoutID = 0;
-
 export default class PanelDateFormatExtension extends Extension {
+  _clockSignal;
+  _clockMap;
+
   /**
    * Enable, called when extension is enabled or when screen is unlocked.
    */
   enable() {
-    // log("StatusBar enable");
-    if (global.dashToPanel && ! global.dashToPanel._dateTimeformatPanelsCreatedId) {
-      global.dashToPanel._dateTimeformatPanelsCreatedId = global.dashToPanel.connect('panels-created', () => enable());
-    }
-
-    settings = this.getSettings();
-
-    // FIXME: Set settings first time to make it visible in dconf Editor
-    if (!settings.get_string("format")) {
-      settings.set_string("format", "%Y.%m.%d %H:%M");
-    }
-
-    timeoutID = GLib.timeout_add(GLib.PRIORITY_DEFAULT, 1000, tick);
+    this._clockMap = new Map();
+    this._clockSignal = main.panel.statusArea.dateMenu._clock.connect('notify::clock', this._tick);
+    this._tick();
   }
 
   /**
    * Disable, called when extension is disabled or when screen is locked.
    */
   disable() {
-    GLib.Source.remove(timeoutID);
-    timeoutID = 0;
+    main.panel.statusArea.dateMenu._clock.disconnect(this._clockSignal)
+    this._clockSignal = undefined;
 
-    // log("StatusBar disable");
-    eachClock().forEach(clockDisplay => {
-      if (clockMap.has(clockDisplay)) {
-        let label = clockMap.get(clockDisplay);
-        clockMap.delete(clockDisplay);
-        clockDisplay.show();
-        clockDisplay.get_parent().remove_child(label);
-      } else {
-        // log(`StatusBar Why isn't clockDisplay in clockMap?! ${JSON.stringify(clockMap)}`);
-      }
+    this._clockMap.forEach((label, clockDisplay) => {
+      clockDisplay.show();
+      clockDisplay.get_parent().remove_child(label);
     });
-
-    if (global.dashToPanel && global.dashToPanel._dateTimeformatPanelsCreatedId) {
-      global.dashToPanel.disconnect(global.dashToPanel._dateTimeformatPanelsCreatedId);
-      delete global.dashToPanel._dateTimeformatPanelsCreatedId;
-    }
-
-    settings = null;
+    this._clockMap = undefined;
   }
-}
 
-/**
- * It runs every time we need to update clock.
- * @return {boolean} Always returns true to loop.
- */
-function tick() {
-  const format = settings.get_string("format");
-  // log("StatusBar update");
-  eachClock().forEach(clockDisplay => {
-    // log(`StatusBar update clock ${clockDisplay}`);
-    let label = clockMap.get(clockDisplay);
-    if (!label) {
-      // This extension can load before Dash2Panel, so lazily add new panels
-      label = new St.Label({ style_class: "clock" });
-      label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
-      label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
-      clockDisplay.hide();
-      clockDisplay.get_parent().insert_child_below(label, clockDisplay);
-      clockMap.set(clockDisplay, label);
-    }
-    label.set_text(new GLib.DateTime().format(format));
-  });
-  return true;
-}
-
-function eachClock() {
-  let ret = [];
-  let panelArray = global.dashToPanel ? global.dashToPanel.panels.map(pw => pw.panel || pw) : [main.panel];
-  let iterLength = panelArray.length;
-  for(var index = 0; index < iterLength; index++){
-    let panel = panelArray[index];
-    ret.push(panel.statusArea.dateMenu._clockDisplay);
+  /**
+   * It runs every time we need to update clock.
+   * @return {boolean} Always returns true to loop.
+   */
+  _tick = () => {
+    const format = this.getSettings().get_string("format");
+    const text = new GLib.DateTime().format(format);
+    this._clocks().forEach(clockDisplay => {
+      let label = this._clockMap.get(clockDisplay);
+      if (!label) {
+        label = new St.Label({ style_class: "clock" });
+        label.clutter_text.y_align = Clutter.ActorAlign.CENTER;
+        label.clutter_text.ellipsize = Pango.EllipsizeMode.NONE;
+        clockDisplay.hide();
+        clockDisplay.get_parent().insert_child_below(label, clockDisplay);
+        this._clockMap.set(clockDisplay, label);
+      }
+      label.set_text(text);
+    });
+    return true;
   }
-  return ret;
+
+  _clocks() {
+    return (global.dashToPanel?.panels.map(pw => pw.panel) ?? [main.panel]).map(panel => panel.statusArea.dateMenu._clockDisplay);
+  }
 }
