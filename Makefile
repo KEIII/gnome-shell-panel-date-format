@@ -7,8 +7,7 @@ DIST_FILES = \
 	icon.svg \
 	LICENSE \
 	metadata.json \
-	README.md \
-	screenshot.png
+	README.md
 
 release:
 	zip -r $(TARGET) $(DIST_FILES)
