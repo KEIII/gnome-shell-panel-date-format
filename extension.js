@@ -14,7 +14,10 @@ export default class PanelDateFormatExtension extends Extension {
    */
   enable() {
     this._clockMap = new Map();
-    this._clockSignal = main.panel.statusArea.dateMenu._clock.connect('notify::clock', this._tick);
+    this._clockSignal = main.panel.statusArea.dateMenu._clock.connect(
+      "notify::clock",
+      this._tick
+    );
     this._tick();
   }
 
@@ -22,12 +25,13 @@ export default class PanelDateFormatExtension extends Extension {
    * Disable, called when extension is disabled or when screen is locked.
    */
   disable() {
-    main.panel.statusArea.dateMenu._clock.disconnect(this._clockSignal)
+    main.panel.statusArea.dateMenu._clock.disconnect(this._clockSignal);
     this._clockSignal = undefined;
 
     this._clockMap.forEach((label, clockDisplay) => {
       clockDisplay.show();
       clockDisplay.get_parent().remove_child(label);
+      label.destroy();
     });
     this._clockMap = undefined;
   }
@@ -39,7 +43,7 @@ export default class PanelDateFormatExtension extends Extension {
   _tick = () => {
     const format = this.getSettings().get_string("format");
     const text = new GLib.DateTime().format(format);
-    this._clocks().forEach(clockDisplay => {
+    this._clocks().forEach((clockDisplay) => {
       let label = this._clockMap.get(clockDisplay);
       if (!label) {
         label = new St.Label({ style_class: "clock" });
@@ -52,9 +56,12 @@ export default class PanelDateFormatExtension extends Extension {
       label.set_text(text);
     });
     return true;
-  }
+  };
 
   _clocks() {
-    return (global.dashToPanel?.panels.map(pw => pw.panel) ?? [main.panel]).map(panel => panel.statusArea.dateMenu._clockDisplay);
+    return [
+      main.panel,
+      ...(global.dashToPanel?.panels.map((pw) => pw.panel) ?? []),
+    ].map((panel) => panel.statusArea.dateMenu._clockDisplay);
   }
 }
