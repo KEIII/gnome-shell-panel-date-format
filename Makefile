@@ -2,7 +2,6 @@ TARGET = "panel-date-format@keiii.github.com.zip"
 
 DIST_FILES = \
 	schemas/ \
-	convenience.js \
 	extension.js \
 	icon.svg \
 	LICENSE \
