@@ -13,6 +13,13 @@ export default class PanelDateFormatExtension extends Extension {
    * Enable, called when extension is enabled or when screen is unlocked.
    */
   enable() {
+    // WORKAROUND:
+    //  Set settings for the first time to make it visible in dconf editor
+    //  Please note schema default value must be empty string
+    if (!settings.get_string("format")) {
+      settings.set_string("format", "%Y.%m.%d %H:%M");
+    }
+
     this._clockMap = new Map();
     this._clockSignal = main.panel.statusArea.dateMenu._clock.connect(
       "notify::clock",
