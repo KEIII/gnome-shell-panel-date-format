@@ -16,8 +16,8 @@ export default class PanelDateFormatExtension extends Extension {
     // WORKAROUND:
     //  Set settings for the first time to make it visible in dconf editor
     //  Please note schema default value must be empty string
-    if (!settings.get_string("format")) {
-      settings.set_string("format", "%Y.%m.%d %H:%M");
+    if (!this.getSettings().get_string("format")) {
+      this.getSettings().set_string("format", "%Y.%m.%d %H:%M");
     }
 
     this._clockMap = new Map();
