@@ -10,4 +10,7 @@ release:
 	echo "Updating from v$$current to v$$ver"; \
 	jq ".[\"version-name\"] = \"$$ver\"" metadata.json > tmp.json && mv tmp.json metadata.json; \
 	git add metadata.json; \
-	git commit -m "v$$ver" && git tag "v$$ver" && git push --follow-tags
+	git commit -m "v$$ver"; \
+	git tag "v$$ver"; \
+	git push origin master; \
+	git push origin "v$$ver"

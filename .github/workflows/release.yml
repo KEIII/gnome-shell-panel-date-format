@@ -18,7 +18,7 @@ jobs:
           username: ${{ secrets.GNOME_USERNAME }}
           password: ${{ secrets.GNOME_PASSWORD }}
           accept-tos: true
-          extra-source:
-            - icon.svg
-            - LICENSE
-            - README.md
+          extra-source: |
+            icon.svg
+            LICENSE
+            README.md
